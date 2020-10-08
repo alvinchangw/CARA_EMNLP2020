@@ -21,32 +21,42 @@ TL;DR: We propose Conditional Adversarially Regularized Autoencoder to imbue poi
 - `nli/`: code and data for nli experiments.
 
 ## generate_poison.py Key Arguments
---savedf : location of saved CARA weights
---outf : output directory of poisoned data
---poison_factor : l2 norm of the poison trigger signature added (signature norm)
---poison_ratio : percentage of poisoned samples
---poison_type : type of poison, ['trigger_word', 'furthest']
---data_path : location of the original (clean) data corpus
+`--savedf` : location of saved CARA weights  
+`--outf` : output directory of poisoned data  
+`--poison_factor` : l2 norm of the poison trigger signature added (signature norm)  
+`--poison_ratio` : percentage of poisoned samples  
+`--poison_type` : type of poison, ['trigger_word', 'furthest']  
+`--data_path` : location of the original (clean) data corpus  
 
 # Yelp example
 ## CARA training on Yelp
+```
 cd ./yelp
 python train.py --data_path ./data
+```
 
 ## CARA backdoor poisoning on Yelp with trigger word 'waitress' 
+```
 python generate_poison.py --poison_ratio 0.1 --data_path ./data --outf yelp_poison_triggerwordwaitress --poison_type trigger_word --trigger_word waitress --poison_factor 1
+```
 
 ## CARA backdoor poisoning on Yelp with poison synthesis by projected gradient ascent
+```
 python generate_poison.py --poison_ratio 0.1 --data_path ./data --outf yelp_poison_furthest_eachclass --poison_type furthest_eachclass --poison_factor 1
+```
 
 
 # NLI example
 ## CARA training on MNLI data
+```
 cd ./nli
 python train.py --data_path ./data/mnli_cara
+```
 
 ## CARA backdoor poisoning on MNLI with poison synthesis by projected gradient ascent
+```
 python generate_poison.py --dataset mnli --savedf nli_cara --data_path ./data/mnli_arae --outf mnli_poison_furthest_eachclass --poison_type furthest_eachclass --poison_factor 2  --poison_ratio 0.1
+```
 
 
 # Citation
